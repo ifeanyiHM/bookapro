@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Instrument Sans Variable", system-ui, sans-serif;
+  --font-display: "Hanken Grotesk Variable", "Instrument Sans Variable", system-ui, sans-serif;
+
+  /* All breakpoints in px. Tailwind orders breakpoints by unit first, so mixing the built-in rem ones
+     with px ones would put xl1–xl4 before md/lg/xl and the smaller breakpoint would win on big screens. */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-xl1: 1440px;
+  --breakpoint-xl2: 1536px;
+  --breakpoint-xl3: 1680px;
+  --breakpoint-xl4: 1920px;
+
+  /* Job card palette */
+  --color-paper: #f5f2ea;
+  --color-surface: #ffffff;
+  --color-surface-2: #ece8dd;
+  --color-ink: #15181c;
+  --color-ink-soft: #2b3036;
+  --color-muted: #5b6068;
+  --color-line: #ddd7ca;
+  --color-line-strong: #b9b2a2;
+
+  --color-brand: #0f5e73;
+  --color-brand-dark: #0a4455;
+  --color-brand-tint: #e0eef1;
+
+  --color-amber: #e8a300;
+  --color-amber-tint: #fbf0d0;
+
+  --color-success: #1f7a4d;
+  --color-success-tint: #def1e6;
+  --color-warning: #8a5a00;
+  --color-warning-tint: #fbefd2;
+  --color-danger: #b42318;
+  --color-danger-tint: #fbe4e1;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+/* The root font size steps up at every large-desktop breakpoint, so every rem-based size and spacing
+   value grows with it. Container width, type and control sizes extend the same scale explicitly. */
+html {
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+@media (min-width: 1440px) {
+  html { font-size: 16.5px; }
+}
+@media (min-width: 1536px) {
+  html { font-size: 17px; }
+}
+@media (min-width: 1680px) {
+  html { font-size: 17.5px; }
+}
+@media (min-width: 1920px) {
+  html { font-size: 19px; }
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+h1, h2, h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+}
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Job ticket: the two halves are cut with a half-circle notch where they meet (the perforation).
+   Masks are used so the notch works on any background. */
+.ticket-top {
+  --n: 0.65rem;
+  -webkit-mask:
+    radial-gradient(circle var(--n) at 0 100%, transparent 97%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--n) at 100% 100%, transparent 97%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle var(--n) at 0 100%, transparent 97%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--n) at 100% 100%, transparent 97%, #000) right / 51% 100% no-repeat;
+}
+.ticket-bottom {
+  --n: 0.65rem;
+  -webkit-mask:
+    radial-gradient(circle var(--n) at 0 0, transparent 97%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--n) at 100% 0, transparent 97%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle var(--n) at 0 0, transparent 97%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--n) at 100% 0, transparent 97%, #000) right / 51% 100% no-repeat;
+}
