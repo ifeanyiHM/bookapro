@@ -2,7 +2,8 @@ import { SITE } from "@/config/site";
 import type { Service } from "@/types";
 
 /** Turns a site path into an absolute URL. */
-export const absoluteUrl = (path: string): string => `${SITE.url}${path.startsWith("/") ? path : `/${path}`}`;
+export const absoluteUrl = (path: string): string =>
+  `${SITE.url}${path.startsWith("/") ? path : `/${path}`}`;
 
 /** Business entity shown on every page (root layout). */
 export const organizationJsonLd = {
@@ -15,7 +16,11 @@ export const organizationJsonLd = {
   logo: absoluteUrl("/icon"),
   image: absoluteUrl("/opengraph-image"),
   priceRange: "₦₦",
-  address: { "@type": "PostalAddress", addressLocality: SITE.city, addressCountry: "NG" },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: SITE.city,
+    addressCountry: "NG",
+  },
   areaServed: { "@type": "City", name: SITE.city },
   ...(SITE.teamEmail ? { email: SITE.teamEmail } : {}),
 };
@@ -34,7 +39,12 @@ export function breadcrumbJsonLd(crumbs: { name: string; path: string }[]) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: crumbs.map((c, i) => ({ "@type": "ListItem", position: i + 1, name: c.name, item: absoluteUrl(c.path) })),
+    itemListElement: crumbs.map((c, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: c.name,
+      item: absoluteUrl(c.path),
+    })),
   };
 }
 
@@ -56,5 +66,17 @@ export function serviceJsonLd(s: Service, categoryLabel: string) {
       availability: "https://schema.org/InStock",
       url: absoluteUrl(`/book?service=${s.slug}`),
     },
+  };
+}
+
+export function faqJsonLd(items: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
   };
 }

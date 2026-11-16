@@ -52,7 +52,7 @@ export function MobileNav({
         <nav
           id="mobile-menu"
           aria-label="Main"
-          className="absolute inset-x-0 top-full z-30 border-b border-line bg-paper px-4 pb-5 pt-2 sm:px-6"
+          className="absolute inset-x-0 top-full z-30 border-b border-line bg-white px-4 pb-5 pt-2 sm:px-6"
         >
           <ul className="divide-y divide-line">
             {items.map((i) => (

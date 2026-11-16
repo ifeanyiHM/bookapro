@@ -27,7 +27,7 @@ export function Wordmark({ light }: { light?: boolean }) {
 
 export function Header() {
   return (
-    <header className="relative border-b border-line bg-paper">
+    <header className="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur supports-backdrop-filter:bg-white/85">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-2 focus:z-50 focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-white"
@@ -50,7 +50,7 @@ export function Header() {
             </Link>
           ))}
           <AuthNav variant="desktop" />
-          <ButtonLink href="/book" className="ml-2 xl3:ml-4">
+          <ButtonLink href="/book" arrow className="ml-2 xl3:ml-4">
             Book a service
           </ButtonLink>
         </nav>
