@@ -5,17 +5,28 @@ import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/ui/Button";
 import { CategoryIcon } from "@/components/ui/CategoryIcon";
 import { Container } from "@/components/ui/Container";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { CATEGORIES } from "@/config/booking";
 import { getServiceBySlug } from "@/lib/catalog";
 import { formatDuration, formatNaira } from "@/lib/format";
 import { space, type } from "@/lib/scale";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const s = await getServiceBySlug(slug);
-  return s ? { title: s.name, description: s.summary } : {};
+  // Inactive services 404, so they get no metadata either.
+  if (!s || !s.active) return {};
+  const url = `/services/${s.slug}`;
+  return {
+    title: s.name,
+    description: s.summary,
+    alternates: { canonical: url },
+    openGraph: { type: "website", title: s.name, description: s.summary, url },
+    twitter: { card: "summary_large_image", title: s.name, description: s.summary },
+  };
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -26,6 +37,14 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
   return (
     <Container className={`${space.sectionTight} grid gap-10 lg:grid-cols-[1.5fr_1fr] xl1:gap-20 xl3:gap-28`}>
+      <JsonLd data={serviceJsonLd(s, category)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+          { name: s.name, path: `/services/${s.slug}` },
+        ])}
+      />
       <div>
         <p className="mb-3 flex items-center gap-2 font-semibold text-brand-dark xl1:text-lg">
           <CategoryIcon category={s.category} />

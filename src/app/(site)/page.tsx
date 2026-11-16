@@ -14,6 +14,7 @@ import { cn } from "../../lib/cn";
 import { formatDay } from "../../lib/format";
 
 export const dynamic = "force-dynamic";
+export const metadata = { alternates: { canonical: "/" } };
 
 /** Placeholder photos from Pexels (free to use). Replace the src values with your own pictures. */
 const px = (id: number) =>

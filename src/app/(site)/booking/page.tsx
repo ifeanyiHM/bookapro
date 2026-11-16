@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { space, type } from "@/lib/scale";
 
-export const metadata: Metadata = { title: "Check a booking" };
+export const metadata: Metadata = { title: "Check a booking", alternates: { canonical: "/booking" } };
 
 export default async function BookingLookupPage() {
   // Signed-in customers see all their bookings in their account.

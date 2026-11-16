@@ -7,6 +7,7 @@ import { space, type } from "@/lib/scale";
 export const metadata: Metadata = {
   title: "Large or new-build job",
   description: "Tell our team about a new building, renovation or larger installation and we will contact you.",
+  alternates: { canonical: "/contact-team" },
 };
 
 export default function ContactTeamPage() {

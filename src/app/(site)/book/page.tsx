@@ -12,6 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Book a service",
   description: "Choose a service, your area and an arrival window, then pay securely with Paystack.",
+  alternates: { canonical: "/book" },
 };
 
 export default async function BookPage({ searchParams }: { searchParams: Promise<{ service?: string }> }) {

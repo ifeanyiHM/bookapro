@@ -9,6 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Services and prices",
   description: "Fixed prices for AC, electrical, plumbing and cleaning jobs in Lagos.",
+  alternates: { canonical: "/services" },
 };
 
 export default async function ServicesPage() {
