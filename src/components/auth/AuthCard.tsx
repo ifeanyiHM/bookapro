@@ -1,10 +1,19 @@
 import { cn } from "@/lib/cn";
 import { googleEnabled } from "@/lib/google";
 import { type } from "@/lib/scale";
+import {
+  ArrowUpRight,
+  CheckCircle,
+  LockKey,
+  ShieldCheck,
+} from "@phosphor-icons/react/dist/ssr";
 
 export { Alert } from "./Alert";
 
-/** The framed box every sign-in, sign-up and onboarding page sits in. `wide` is for the longer technician form. */
+/**
+ * Shared layout for sign-in, registration and onboarding pages.
+ * Keeps the form itself as the main focus.
+ */
 export function AuthCard({
   title,
   lead,
@@ -22,27 +31,98 @@ export function AuthCard({
     <div
       className={cn(
         "w-full",
-        wide
-          ? "max-w-3xl xl1:max-w-4xl xl3:max-w-5xl"
-          : "max-w-md xl1:max-w-lg xl3:max-w-xl",
+        wide ? "max-w-5xl xl1:max-w-6xl" : "max-w-5xl xl1:max-w-6xl",
       )}
     >
-      <h1 className={`${type.h1} mb-2`}>{title}</h1>
-      {lead && (
-        <p className={`${type.body} mb-7 text-muted xl1:mb-9`}>{lead}</p>
-      )}
-      <div className="rounded-md border border-line bg-surface p-6 xl1:p-8 xl3:p-10">
-        {children}
+      <div className="grid overflow-hidden rounded-2xl border border-line bg-surface shadow-sm lg:grid-cols-[0.85fr_1.15fr]">
+        {/* Brand panel */}
+        <div className="relative hidden flex-col justify-between overflow-hidden bg-brand p-8 text-white lg:flex xl1:p-10 xl3:p-12">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full border border-white/10"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-12 -top-12 size-56 rounded-full border border-white/10"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-32 -left-24 size-80 rounded-full bg-white/[0.07]"
+          />
+
+          <div className="relative z-10">
+            <div className="flex size-12 items-center justify-center rounded-xl border border-white/20 bg-white/10">
+              <ShieldCheck size={27} weight="duotone" />
+            </div>
+
+            <p className="mt-8 text-xs font-bold uppercase tracking-[0.2em] text-white/70">
+              BookAPro
+            </p>
+
+            <h2 className="mt-4 max-w-sm text-3xl font-bold leading-tight tracking-tight xl1:text-4xl">
+              Your home services, handled with confidence.
+            </h2>
+
+            <p className="mt-4 max-w-sm text-sm leading-7 text-white/75 xl1:text-base">
+              Book trusted professionals for electrical, plumbing, AC and
+              cleaning services, all in one place.
+            </p>
+          </div>
+
+          <div className="relative z-10 mt-12 space-y-4">
+            <div className="flex items-center gap-3 text-sm text-white/85">
+              <CheckCircle size={20} weight="fill" />
+              Straightforward online booking
+            </div>
+            <div className="flex items-center gap-3 text-sm text-white/85">
+              <CheckCircle size={20} weight="fill" />
+              Clear pricing before you pay
+            </div>
+            <div className="flex items-center gap-3 text-sm text-white/85">
+              <CheckCircle size={20} weight="fill" />
+              Secure account access
+            </div>
+          </div>
+
+          <p className="relative z-10 mt-12 text-xs text-white/55">
+            Reliable help for the work your home needs.
+          </p>
+        </div>
+
+        {/* Form panel */}
+        <div className="min-w-0 p-5 sm:p-8 lg:p-9 xl1:p-11 xl3:p-14">
+          <div className="mb-7 lg:mb-9">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-tint px-3 py-1.5 text-xs font-semibold text-brand">
+              <LockKey size={15} weight="bold" />
+              Secure account access
+            </div>
+
+            <h1 className={`${type.h1} tracking-tight`}>{title}</h1>
+
+            {lead && (
+              <p className={`${type.body} mt-3 max-w-lg text-muted`}>{lead}</p>
+            )}
+          </div>
+
+          <div className="min-w-0">{children}</div>
+
+          {footer && (
+            <div className="mt-8 border-t border-line pt-6">
+              <div className={`${type.small} text-ink-soft`}>{footer}</div>
+            </div>
+          )}
+        </div>
       </div>
-      {footer && (
-        <div className={`${type.small} mt-6 text-ink-soft`}>{footer}</div>
-      )}
+
+      <div className="mt-5 flex items-center justify-center gap-2 text-xs text-muted">
+        <ShieldCheck size={16} weight="fill" className="text-brand" />
+        Your account details are handled securely.
+      </div>
     </div>
   );
 }
 
-/** Shown only when GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET are configured. */
-
+/** Google sign-in button */
 function GoogleLogo({ className }: { className?: string }) {
   return (
     <svg
@@ -84,30 +164,37 @@ export function GoogleButton({
       <a
         href="/api/auth/google"
         className="
-          group flex h-12 w-full items-center justify-center gap-3
-          rounded-lg border border-[#E8E8E8] bg-white
-          text-sm font-semibold text-[#080808]
+          group relative flex h-12 w-full items-center justify-center
+          gap-3 rounded-lg border border-line-strong bg-surface
+          text-center text-sm font-semibold text-ink
           shadow-sm transition-all duration-200
-          hover:border-[#D0D0D0] hover:bg-[#F8F8F8]
+          hover:border-brand/40 hover:bg-surface-2 hover:shadow-md
           active:scale-[0.99]
-          focus-visible:outline-none
-          focus-visible:ring-2 focus-visible:ring-[#2060F8]
-          focus-visible:ring-offset-2
-          xl1:h-14 xl1:text-base
-          xl3:h-16 xl3:text-lg
+          focus-visible:outline-none focus-visible:ring-2
+          focus-visible:ring-brand focus-visible:ring-offset-2
+          xl1:h-13 xl1:text-base
         "
       >
-        <GoogleLogo className="size-4.5 shrink-0 xl3:size-5" />
+        <GoogleLogo className="size-5 shrink-0" />
         <span>{label}</span>
+
+        <ArrowUpRight
+          size={16}
+          className="
+            absolute right-4 text-muted opacity-0
+            transition-opacity duration-200
+            group-hover:opacity-100
+          "
+        />
       </a>
 
       <div
-        className="my-6 flex items-center gap-4 text-xs font-medium uppercase tracking-[0.12em] text-[#A0A0A0] xl1:my-7 xl1:text-sm"
+        className="my-6 flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted xl1:my-7"
         aria-hidden="true"
       >
-        <span className="h-px flex-1 bg-[#E8E8E8]" />
-        <span>Or continue with email</span>
-        <span className="h-px flex-1 bg-[#E8E8E8]" />
+        <span className="h-px flex-1 bg-line" />
+        <span>Or use your email</span>
+        <span className="h-px flex-1 bg-line" />
       </div>
     </>
   );

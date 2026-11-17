@@ -1,87 +1,3 @@
-// import { AuthCard } from "@/components/auth/AuthCard";
-// import { ButtonLink } from "@/components/ui/Button";
-// import { requireUser } from "@/lib/auth";
-// import { landingPath } from "@/lib/sign-in";
-// import {
-//   CheckCircle,
-//   Hourglass,
-//   XCircle,
-// } from "@phosphor-icons/react/dist/ssr";
-// import type { Metadata } from "next";
-// import { redirect } from "next/navigation";
-
-// export const metadata: Metadata = { title: "Application status" };
-
-// export default async function ApplicationStatusPage() {
-//   const user = await requireUser();
-//   if (!user.emailVerified) redirect("/verify-email");
-//   if (user.role !== "technician") redirect(await landingPath(user));
-//   if (!user.applicationStatus) redirect("/onboarding/technician");
-//   if (user.applicationStatus === "approved") redirect("/technician");
-
-//   if (user.applicationStatus === "pending") {
-//     return (
-//       <AuthCard
-//         title="Application in review"
-//         lead="Thank you. Our team is checking your details and documents."
-//       >
-//         <div className="space-y-4 xl1:text-lg">
-//           <p className="flex items-start gap-2.5">
-//             <Hourglass
-//               aria-hidden="true"
-//               size={26}
-//               weight="fill"
-//               className="mt-0.5 shrink-0 text-warning"
-//             />
-//             <span>
-//               You cannot take bookings until you are approved. We will email{" "}
-//               <strong>{user.email}</strong> with the decision.
-//             </span>
-//           </p>
-//           <ButtonLink href="/onboarding/technician?edit=1" variant="secondary">
-//             Edit my application
-//           </ButtonLink>
-//         </div>
-//       </AuthCard>
-//     );
-//   }
-//   return (
-//     <AuthCard
-//       title="Application not approved"
-//       lead="We could not approve it this time."
-//     >
-//       <div className="space-y-4 xl1:text-lg">
-//         <p className="flex items-start gap-2.5">
-//           <XCircle
-//             aria-hidden="true"
-//             size={26}
-//             weight="fill"
-//             className="mt-0.5 shrink-0 text-danger"
-//           />
-//           <span>Reason from our team:</span>
-//         </p>
-//         <blockquote className="whitespace-pre-line rounded-md bg-surface-2 p-4">
-//           {user.reviewNote ?? "No reason was recorded."}
-//         </blockquote>
-//         <p className="flex items-start gap-2.5 text-ink-soft">
-//           <CheckCircle
-//             aria-hidden="true"
-//             size={22}
-//             className="mt-0.5 shrink-0"
-//           />
-//           <span>
-//             If you can fix this, update your details or documents and submit
-//             again.
-//           </span>
-//         </p>
-//         <ButtonLink href="/onboarding/technician">
-//           Update and submit again
-//         </ButtonLink>
-//       </div>
-//     </AuthCard>
-//   );
-// }
-
 import { ButtonLink } from "@/components/ui/Button";
 import { requireUser } from "@/lib/auth";
 import { cn } from "@/lib/cn";
@@ -110,7 +26,7 @@ const TAPE_REJECTED = "var(--color-danger)";
 
 function Node({ state }: { state: StepState }) {
   const base =
-    "relative z-10 grid size-9 place-items-center rounded-full xl1:size-10 xl3:size-12";
+    "relative z-10 grid size-10 place-items-center rounded-full ring-4 ring-surface xl1:size-11 xl3:size-12";
   if (state === "done")
     return (
       <span className={cn(base, "bg-brand text-white")}>
@@ -165,7 +81,9 @@ function Track({ steps }: { steps: Step[] }) {
             />
           )}
           <Node state={s.state} />
-          <span className={cn(type.label, "mt-3")}>{s.label}</span>
+          <span className={cn(type.label, "mt-3 font-semibold")}>
+            {s.label}
+          </span>
           <span className={cn(type.small, "text-muted")}>{s.caption}</span>
         </li>
       ))}
@@ -189,7 +107,7 @@ function ApplicationTicket({
 }) {
   return (
     <div>
-      <div className="ticket-top overflow-hidden rounded-t-md border border-b-0 border-line bg-surface">
+      <div className="ticket-top overflow-hidden rounded-t-xl border border-b-0 border-line bg-surface shadow-sm">
         <div
           aria-hidden="true"
           className="h-2.5 xl3:h-3"
@@ -215,7 +133,7 @@ function ApplicationTicket({
         </div>
       </div>
 
-      <div className="ticket-bottom relative rounded-b-md border border-t-0 border-line bg-surface px-5 pb-6 pt-7 before:absolute before:inset-x-5 before:top-0 before:border-t before:border-dashed before:border-line-strong xl1:px-7 xl1:pb-7 xl1:pt-8 xl1:before:inset-x-7 xl3:px-9 xl3:pb-9 xl3:before:inset-x-9">
+      <div className="ticket-bottom relative rounded-b-xl border border-t-0 border-line bg-surface px-5 pb-6 pt-7 shadow-sm before:absolute before:inset-x-5 before:top-0 before:border-t before:border-dashed before:border-line-strong xl1:px-7 xl1:pb-7 xl1:pt-8 xl1:before:inset-x-7 xl3:px-9 xl3:pb-9 xl3:before:inset-x-9">
         {children}
       </div>
     </div>
@@ -234,10 +152,14 @@ export default async function ApplicationStatusPage() {
   if (user.applicationStatus === "pending") {
     return (
       <div className={shell}>
-        <h1 className={`${type.h1} mb-2`}>Your application is in review</h1>
+        <h1 className={`${type.h1} mb-3`}>
+          Your application is being reviewed
+        </h1>
         <p className={`${type.body} mb-8 max-w-prose text-muted xl1:mb-10`}>
-          Our team is checking your details and documents. You cannot take
-          bookings until you are approved.
+          Thanks for applying to become a BookAPro technician. Our team is
+          reviewing your details and documents. We'll email you as soon as a
+          decision is made. You won't receive bookings until your application is
+          approved.
         </p>
 
         <ApplicationTicket
@@ -297,7 +219,11 @@ export default async function ApplicationStatusPage() {
               We will email <strong>{user.email}</strong> with the decision.
             </span>
           </p>
-          <ButtonLink href="/onboarding/technician?edit=1" variant="secondary">
+          <ButtonLink
+            href="/onboarding/technician?edit=1"
+            variant="secondary"
+            className="w-full justify-center sm:w-auto"
+          >
             <PencilSimple aria-hidden="true" size={18} />
             Edit my application
           </ButtonLink>
@@ -308,9 +234,13 @@ export default async function ApplicationStatusPage() {
 
   return (
     <div className={shell}>
-      <h1 className={`${type.h1} mb-2`}>Your application was not approved</h1>
+      <h1 className={`${type.h1} mb-3`}>
+        Let's get your application back on track
+      </h1>
+
       <p className={`${type.body} mb-8 max-w-prose text-muted xl1:mb-10`}>
-        Here is what our team said, and how to try again.
+        Your application wasn't approved this time. Review the feedback from our
+        team below, make the necessary changes, and submit it again.
       </p>
 
       <ApplicationTicket
@@ -364,7 +294,11 @@ export default async function ApplicationStatusPage() {
       </ApplicationTicket>
 
       <div className="mt-6 xl1:mt-8">
-        <ButtonLink href="/onboarding/technician" size="lg">
+        <ButtonLink
+          href="/onboarding/technician"
+          size="lg"
+          className="w-full justify-center shadow-sm transition-all duration-200 hover:shadow-md sm:w-auto"
+        >
           Update and submit again
         </ButtonLink>
       </div>

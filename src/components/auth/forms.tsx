@@ -44,7 +44,7 @@ function Submit({
     <Button
       type="submit"
       size="lg"
-      className="w-full"
+      className="w-full shadow-sm transition-all duration-200 hover:shadow-md"
       disabled={pending}
       aria-busy={pending}
     >
@@ -116,7 +116,7 @@ function PasswordField({
   );
 }
 
-const formClass = "space-y-5 xl1:space-y-6";
+const formClass = "space-y-6 xl1:space-y-7";
 
 export function RegisterForm() {
   const [state, action, pending] = useAuthAction(registerAction);
