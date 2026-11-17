@@ -44,7 +44,7 @@ export function Header() {
             <Link
               key={i.href}
               href={i.href}
-              className="rounded-md px-3.5 py-2 text-[0.95rem] font-medium text-ink-soft hover:bg-surface-2 xl1:px-4 xl1:text-base xl3:px-5 xl3:text-lg"
+              className="rounded-full px-3.5 py-2 text-[0.95rem] font-medium text-ink-soft hover:bg-surface-2 xl1:px-4 xl1:text-base xl3:px-5 xl3:text-lg"
             >
               {i.label}
             </Link>
@@ -56,7 +56,7 @@ export function Header() {
         </nav>
         <div className="flex items-center gap-2 lg:hidden">
           <ButtonLink href="/book" size="sm">
-            Book
+            Book Now
           </ButtonLink>
           <MobileNav items={NAV}>
             <AuthNav variant="mobile" />

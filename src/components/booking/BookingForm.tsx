@@ -263,9 +263,9 @@ export function BookingForm({
     <form
       onSubmit={submit}
       noValidate
-      className="grid gap-10 lg:grid-cols-[1fr_24rem] xl1:grid-cols-[1fr_28rem] xl1:gap-16 xl2:gap-20 xl3:grid-cols-[1fr_32rem] xl3:gap-24 xl4:grid-cols-[1fr_36rem] xl4:gap-28"
+      className="grid items-start gap-8 lg:grid-cols-[1fr_24rem] xl1:grid-cols-[1fr_28rem] xl1:gap-10 xl2:gap-12 xl3:grid-cols-[1fr_32rem] xl3:gap-16 xl4:grid-cols-[1fr_36rem] xl4:gap-20"
     >
-      <div className="space-y-10 xl1:space-y-14">
+      <div className="min-w-0 space-y-10 rounded-xl border border-line bg-white p-5 sm:p-7 xl1:space-y-12 xl1:p-9">
         {(errorKeys.length > 0 || formError) && (
           <div
             ref={summaryRef}
@@ -312,7 +312,7 @@ export function BookingForm({
           </span>
         </p>
 
-        <fieldset className="space-y-5 xl1:space-y-6">
+        <fieldset className="space-y-5 border-b border-line pb-8 xl1:space-y-6 xl1:pb-10">
           <legend className={`${type.h3} mb-4`}>
             1. What do you need, and where?
           </legend>
@@ -366,7 +366,7 @@ export function BookingForm({
           </Field>
         </fieldset>
 
-        <fieldset>
+        <fieldset className="border-b border-line pb-8 xl1:pb-10">
           <legend id="slot-heading" tabIndex={-1} className={`${type.h3} mb-4`}>
             2. Pick a date and arrival window
           </legend>
@@ -457,7 +457,7 @@ export function BookingForm({
       </div>
 
       <aside
-        className="self-start lg:sticky lg:top-6"
+        className="self-start lg:sticky lg:top-24"
         aria-label="Booking summary"
       >
         <Ticket
@@ -496,46 +496,51 @@ export function BookingForm({
             Your reference is created when you book.
           </p>
         </Ticket>
-        <Button
-          type="submit"
-          size="lg"
-          className="mt-5 w-full"
-          disabled={submitting || account.state === "other"}
-          aria-busy={submitting}
-        >
-          {submitting ? (
-            <>
-              <SpinnerGap aria-hidden="true" className="animate-spin" />
-              {account.state === "ready"
-                ? "Taking you to payment…"
-                : "Saving your booking…"}
-            </>
-          ) : account.state === "ready" ? (
-            service ? (
-              `Pay ${formatNaira(service.priceKobo)} with Paystack`
-            ) : (
-              "Continue to payment"
-            )
-          ) : account.state === "other" ? (
-            "Use a customer account to book"
-          ) : (
-            "Continue"
-          )}
-        </Button>
-        <p className="mt-3 text-sm text-muted xl1:text-base">
-          {account.state === "ready"
-            ? "You pay on Paystack's secure page. We only see whether the payment worked."
-            : "You will not be charged yet. Payment comes after your account is ready."}
-        </p>
-        <p className="mt-3 text-sm text-ink-soft xl1:text-base">
-          Large or new-build job?{" "}
-          <Link
-            href="/contact-team"
-            className="font-semibold text-brand underline underline-offset-4"
+
+        <div className="mt-5">
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full"
+            disabled={submitting || account.state === "other"}
+            aria-busy={submitting}
           >
-            Contact our team.
-          </Link>
-        </p>
+            {submitting ? (
+              <>
+                <SpinnerGap aria-hidden="true" className="animate-spin" />
+                {account.state === "ready"
+                  ? "Taking you to payment…"
+                  : "Saving your booking…"}
+              </>
+            ) : account.state === "ready" ? (
+              service ? (
+                `Pay ${formatNaira(service.priceKobo)} with Paystack`
+              ) : (
+                "Continue to payment"
+              )
+            ) : account.state === "other" ? (
+              "Use a customer account to book"
+            ) : (
+              "Continue"
+            )}
+          </Button>
+
+          <p className="mt-3 text-sm text-muted xl1:text-base">
+            {account.state === "ready"
+              ? "You pay on Paystack's secure page. We only see whether the payment worked."
+              : "You will not be charged yet. Payment comes after your account is ready."}
+          </p>
+
+          <p className="mt-3 text-sm text-ink-soft xl1:text-base">
+            Large or new-build job?{" "}
+            <Link
+              href="/contact-team"
+              className="font-semibold text-brand underline underline-offset-4"
+            >
+              Contact our team.
+            </Link>
+          </p>
+        </div>
       </aside>
     </form>
   );

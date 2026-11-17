@@ -140,3 +140,63 @@ h3 {
     radial-gradient(circle var(--n) at 100% 0, transparent 97%, #000) right /
       51% 100% no-repeat;
 }
+
+/* FAQ answer dropdown animation */
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 250ms ease;
+}
+
+.faq-answer-inner {
+  overflow: hidden;
+}
+
+.faq-item[open] .faq-answer {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+/* Subtle entrance movement for the answer */
+.faq-answer-inner > p {
+  transform: translateY(-8px);
+  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faq-item[open] .faq-answer-inner > p {
+  transform: translateY(0);
+}
+
+/* Smooth question interaction */
+.faq-summary {
+  transition: color 200ms ease;
+}
+
+.faq-summary:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .faq-answer,
+  .faq-answer-inner > p,
+  .faq-icon,
+  .faq-summary {
+    transition: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-item,
+  #mobile-menu,
+  #mobile-menu * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

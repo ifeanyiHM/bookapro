@@ -22,9 +22,11 @@ const CONTACT = [
 ] as const;
 
 const choice =
-  "flex min-h-11 cursor-pointer items-center gap-2.5 rounded-md border border-line-strong bg-surface px-3.5 py-2.5 text-[0.95rem] font-medium " +
-  "has-[:checked]:border-brand has-[:checked]:bg-brand-tint has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-brand " +
-  "xl1:text-base xl3:min-h-12 xl3:px-4 xl3:text-lg";
+  "group flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-line-strong bg-surface px-4 py-3 text-sm font-medium text-ink transition-all duration-200 " +
+  "hover:border-brand/50 hover:bg-brand-tint/40 " +
+  "has-[:checked]:border-brand has-[:checked]:bg-brand-tint has-[:checked]:text-brand " +
+  "has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-brand " +
+  "xl1:text-base";
 
 export function EnquiryForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -93,7 +95,7 @@ export function EnquiryForm() {
     return (
       <div
         role="status"
-        className="rounded-md border border-success/40 bg-success-tint p-6 xl1:p-8 xl3:p-10"
+        className="rounded-xl border border-success/30 bg-success-tint p-6 sm:p-8 xl1:p-10"
       >
         <p className="flex items-center gap-2 font-display text-2xl font-bold text-success xl1:text-3xl">
           <CheckCircle aria-hidden="true" weight="fill" /> We have your enquiry
@@ -121,13 +123,13 @@ export function EnquiryForm() {
   const keys = Object.keys(errors);
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-8 xl1:space-y-10">
+    <form onSubmit={onSubmit} noValidate className="space-y-10 xl1:space-y-12">
       {(keys.length > 0 || formError) && (
         <div
           ref={alertRef}
           tabIndex={-1}
           role="alert"
-          className="rounded-md border border-danger/40 bg-danger-tint p-4 text-danger xl1:p-5 xl1:text-lg"
+          className="rounded-xl border border-danger/30 bg-danger-tint p-4 text-danger sm:p-5"
         >
           <p className="flex items-center gap-2 font-semibold">
             <WarningCircle aria-hidden="true" size={20} weight="fill" />
@@ -142,9 +144,14 @@ export function EnquiryForm() {
           )}
         </div>
       )}
+      <fieldset className="space-y-5">
+        <legend className={`${type.h3} mb-5`}>
+          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.15em] text-brand">
+            Step 01
+          </span>
+          About you
+        </legend>
 
-      <fieldset className="grid gap-5 sm:grid-cols-2 xl1:gap-6 xl3:gap-7">
-        <legend className={`${type.h3} mb-4`}>About you</legend>
         <Field id="name" label="Full name" error={errors.name}>
           {(a) => (
             <input
@@ -214,8 +221,14 @@ export function EnquiryForm() {
         </div>
       </fieldset>
 
-      <fieldset className="space-y-5 xl1:space-y-6">
-        <legend className={`${type.h3} mb-4`}>About the project</legend>
+      <fieldset className="space-y-6 border-t border-line pt-8">
+        <legend className={`${type.h3} mb-5`}>
+          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.15em] text-brand">
+            Step 02
+          </span>
+          About the project
+        </legend>
+
         <div>
           <p id="type-label" className={`${type.label} mb-1.5`}>
             What kind of project is it?
@@ -250,7 +263,7 @@ export function EnquiryForm() {
           <div
             role="group"
             aria-labelledby="trades-label"
-            className="grid gap-2 sm:grid-cols-3"
+            className="grid gap-2 sm:grid-cols-2 xl1:grid-cols-3"
           >
             {ENQUIRY_TRADES.map((t) => (
               <label key={t.id} className={choice}>
@@ -341,20 +354,29 @@ export function EnquiryForm() {
         </div>
       </fieldset>
 
-      <Button
-        type="submit"
-        size="lg"
-        disabled={submitting}
-        aria-busy={submitting}
-      >
-        {submitting ? (
-          <>
-            <SpinnerGap aria-hidden="true" className="animate-spin" /> Sending…
-          </>
-        ) : (
-          "Send to our team"
-        )}
-      </Button>
+      <div className="border-t border-line pt-7">
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full sm:w-auto sm:min-w-56"
+          disabled={submitting}
+          aria-busy={submitting}
+        >
+          {submitting ? (
+            <>
+              <SpinnerGap aria-hidden="true" className="animate-spin" />
+              Sending…
+            </>
+          ) : (
+            "Send project enquiry"
+          )}
+        </Button>
+
+        <p className="mt-3 text-sm leading-6 text-muted">
+          Our team will review your details and contact you using your preferred
+          method.
+        </p>
+      </div>
     </form>
   );
 }

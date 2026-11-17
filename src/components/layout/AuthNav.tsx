@@ -107,7 +107,7 @@ export function AuthNav({
   }
 
   const desktop =
-    "inline-block min-w-24 rounded-md px-3.5 py-2 text-center text-[0.95rem] font-medium text-ink-soft hover:bg-surface-2 xl1:px-4 xl1:text-base xl3:px-5 xl3:text-lg";
+    "inline-block min-w-24 rounded-full px-3.5 py-2 text-center text-[0.95rem] font-medium text-ink-soft hover:bg-surface-2 xl1:px-4 xl1:text-base xl3:px-5 xl3:text-lg";
   return (
     <Link
       href={href}

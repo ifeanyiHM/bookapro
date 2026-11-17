@@ -1,24 +1,50 @@
-import { Plus } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "@/components/seo/JsonLd";
 import type { FaqItem } from "@/config/content";
-import { faqJsonLd } from "@/lib/seo";
 import { type } from "@/lib/scale";
+import { faqJsonLd } from "@/lib/seo";
+import { Plus } from "@phosphor-icons/react/dist/ssr";
 
-/** Frequently asked questions as plain <details> elements: no JavaScript, keyboard friendly, and marked up for Google. */
+/**
+ * Accessible FAQ accordion using native details elements.
+ * Includes animated answer expansion and icon rotation.
+ */
 export function Faq({ items }: { items: FaqItem[] }) {
   return (
     <>
       <JsonLd data={faqJsonLd(items)} />
-      <div className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-white shadow-card">
-        {items.map((f) => (
-          <details key={f.id} className="group px-5 py-1 sm:px-7 xl3:px-10">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-semibold marker:content-none xl1:text-lg xl3:py-6 xl3:text-2xl [&::-webkit-details-marker]:hidden">
-              {f.question}
-              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-brand-tint text-brand transition-transform duration-200 group-open:rotate-45 xl3:size-10">
-                <Plus aria-hidden="true" weight="bold" className="size-4 xl3:size-5" />
+
+      <div className="divide-y divide-line border-y border-line">
+        {items.map((f, index) => (
+          <details key={f.id} className="faq-item group">
+            <summary className="faq-summary flex cursor-pointer list-none items-center justify-between gap-5 py-6 text-left marker:content-none xl2:py-7 [&::-webkit-details-marker]:hidden">
+              <span className="flex min-w-0 items-start gap-4">
+                <span className="mt-1 hidden shrink-0 text-xs font-bold tabular-nums text-brand/60 sm:block">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <span className="text-base font-semibold leading-snug text-ink transition-colors duration-200 group-hover:text-brand-dark group-open:text-brand-dark sm:text-lg xl1:text-xl">
+                  {f.question}
+                </span>
+              </span>
+
+              <span className="faq-icon grid size-9 shrink-0 place-items-center rounded-full border border-line bg-surface text-ink transition-all duration-300 group-hover:border-brand group-hover:bg-brand-tint group-hover:text-brand group-open:rotate-45 group-open:border-brand group-open:bg-brand group-open:text-white sm:size-10">
+                <Plus
+                  aria-hidden="true"
+                  weight="bold"
+                  className="size-4 sm:size-4.5"
+                />
               </span>
             </summary>
-            <p className={`${type.body} max-w-3xl pb-5 text-muted xl3:pb-7`}>{f.answer}</p>
+
+            <div className="faq-answer">
+              <div className="faq-answer-inner">
+                <p
+                  className={`${type.body} max-w-3xl pb-6 text-muted sm:pb-7 sm:pl-8`}
+                >
+                  {f.answer}
+                </p>
+              </div>
+            </div>
           </details>
         ))}
       </div>
